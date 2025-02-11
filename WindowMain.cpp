@@ -6,7 +6,7 @@ WindowMain::WindowMain()
     initFont();
     initPosSize();
     createWindow();
-    initContext();
+    //paintText();
 }
 
 WindowMain::~WindowMain()
@@ -15,7 +15,6 @@ WindowMain::~WindowMain()
 
 void WindowMain::onShown()
 {
-    //paintText();
     SetTimer(hwnd, 1001, 600, NULL);
     activeKeyboard();
 }
@@ -51,6 +50,14 @@ void WindowMain::initText()
 
 void WindowMain::initFont()
 {
+    BLFontFace face;
+    BLResult err = face.createFromFile("C:\\Windows\\Fonts\\simhei.ttf"); //黑体
+    if (err) {
+        return;
+    }
+    font = std::make_unique<BLFont>();
+    font->createFromFace(face, 16.0f);
+
     //auto fontMgr = SkFontMgr_New_GDI();
     //auto fontStyle = SkFontStyle::Normal();    
     //auto typeFace = fontMgr->matchFamilyStyle("Microsoft YaHei", fontStyle);
@@ -69,11 +76,13 @@ void WindowMain::initFont()
 LRESULT WindowMain::procMsg(UINT msg, WPARAM wParam, LPARAM lParam)
 {
     if (msg == WM_TIMER) {
-        if (wParam == 1001)
-        {
-            flashCaret();
-            InvalidateRect(hwnd, nullptr, false);
-        }
+        //if (wParam == 1001)
+        //{
+        //    flashCaret();
+        //    InvalidateRect(hwnd, nullptr, false);
+        //    return 0;
+        //}
+        return 0;
     }
     else if (msg == WM_LBUTTONDOWN) {
         isMouseDown = true;

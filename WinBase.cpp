@@ -40,18 +40,36 @@ void WinBase::createWindow()
     hwnd = CreateWindowEx(NULL, clsName, clsName, WS_OVERLAPPEDWINDOW,
         x, y, w, h, nullptr, nullptr, hinstance, nullptr);
     SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)this);
+    img = std::make_unique<BLImage>(w, h, BL_FORMAT_PRGB32);
+
+    BLContext ctx(*img.get());
+    ctx.clearAll();
+    ctx.fillAll(BLRgba32(0x66B83E52));
+    BLFontFace face;
+    BLResult err = face.createFromFile("C:\\Windows\\Fonts\\simhei.ttf"); //黑体
+    if (err) {
+        return;
+    }
+    BLFont font;
+    font.createFromFace(face, 56.0f);
+    const char regularText[] = "Hello Blend2D!";
+    BLPoint pos(250, 80);
+    ctx.setFillStyle(BLRgba32(0xFF000000));
+    ctx.fillUtf8Text(pos, font, regularText);
+    ctx.end();
+
 
 }
 
 void WinBase::paintWin()
 {
     PAINTSTRUCT ps;
-    auto dc = BeginPaint(hwnd, &ps);
-    BITMAPINFO bmi = { sizeof(BITMAPINFOHEADER), w, 0 - h, 1, 32, BI_RGB, h * 4 * w, 0, 0, 0, 0 };
+    HDC hdc = BeginPaint(hwnd, &ps);
     BLImageData data;
     img->getData(&data);
-    SetDIBitsToDevice(dc, 0, 0, w, h, 0, 0, 0, h, data.pixelData, &bmi, DIB_RGB_COLORS);
-    ReleaseDC(hwnd, dc);
+    BITMAPINFO bmi = { sizeof(BITMAPINFOHEADER), w, -h, 1, 32, BI_RGB, w * 4 * h, 0, 0, 0, 0 };
+    SetDIBitsToDevice(hdc, 0, 0, w, h, 0, 0, 0, h, data.pixelData, &bmi, DIB_RGB_COLORS);
+    ReleaseDC(hwnd, hdc);
     EndPaint(hwnd, &ps);
 }
 
@@ -101,12 +119,15 @@ LRESULT WinBase::wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
-void WinBase::initContext()
+BLContext WinBase::getCtx()
 {
-    img = std::make_unique<BLImage>(w, h, BL_FORMAT_PRGB32);
-    BLContext ctx(*img.get());
-    ctx.clearAll();
-    ctx.fillAll(BLRgba32(0xFFFFFFFF));
+    unsigned int coreNum = std::thread::hardware_concurrency();
+    if (coreNum <= 0) {
+        coreNum = 1;
+    }
+    BLContextCreateInfo createInfo{};
+    createInfo.threadCount = coreNum;
+    return BLContext(*img.get(), createInfo);
 }
 
 LRESULT CALLBACK WinBase::procMsg(UINT msg, WPARAM wParam, LPARAM lParam) {

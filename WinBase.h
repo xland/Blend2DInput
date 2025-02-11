@@ -4,6 +4,7 @@
 #include <memory>
 #include <map>
 #include <array>
+#include <thread>
 #include <windows.h>
 #include <windowsx.h>
 #include <Blend2D.h>
@@ -20,13 +21,12 @@ public:
 	HWND hwnd;
 protected:
 	void createWindow();
-	void initContext();
+	BLContext getCtx();
 	//virtual void paint(SkCanvas* canvas) {};
 	virtual LRESULT CALLBACK procMsg(UINT msg, WPARAM wParam, LPARAM lParam);
 	virtual void onShown() {};
 	virtual void onSize() {};
 protected:
-	std::unique_ptr<BLContext> ctx;
 	std::unique_ptr<BLImage> img;
 private:
 	void paintWin();

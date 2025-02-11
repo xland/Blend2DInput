@@ -83,24 +83,59 @@ void WindowMain::flashCaret()
 //    canvas->drawGlyphs(glyphCount, glyphs.data(), wordPos[lineIndex].data(), SkPoint(0, lineIndex * height), font, paint);
 //}
 
-//void WindowMain::paintText()
-//{
-//    SkCanvas* canvas = ctx->getCanvas();
-//    
-//    canvas->clear(colorBg);
-//    paintSelectedBg(canvas);
-//    wordPos.clear();
-//    int lineIndex{ 0 };
-//    for (size_t i = 0; i < lines.size(); i++)
-//    {
-//        paintLine(lines[i], i, canvas);
-//    }
-//    if (caretLineIndex < 0) {
-//        caretLineIndex = wordPos.size() - 1;
-//    }
-//    if (caretWordIndex < 0) {
-//        caretWordIndex = wordPos[wordPos.size() - 1].size() - 1;
-//    }
-//    caretVisible = true;
-//    flashCaret();
-//}
+void WindowMain::paintText()
+{
+    auto ctx = getCtx();
+    BLGradient linear(BLLinearGradientValues(0, 0, 0, 480));
+    linear.addStop(0.0, BLRgba32(0xFFFFFFFF));
+    linear.addStop(0.5, BLRgba32(0xFF5FAFDF));
+    linear.addStop(1.0, BLRgba32(0xFF2F5FDF));
+    ctx.setFillStyle(linear);
+    ctx.fillRoundRect(40.0, 40.0, 400.0, 400.0, 45.5);
+    ctx.end();
+
+
+
+    //BLFontFace face;
+    //BLResult err = face.createFromFile("C:\\Windows\\Fonts\\msyh.ttc"); //黑体
+    //if (err) {
+    //    return;
+    //}
+    //BLFont font;
+    //font.createFromFace(face, 16.0f);
+    //ctx.fillAll(BLRgba32(colorBg));
+    //ctx.setFillStyle(BLRgba32(colorFore));
+    //std::string str{ "allen" };
+    //ctx.fillUtf8Text(BLPoint(60, 80), font, str.c_str());
+
+
+
+    //BLGlyphBuffer gb;
+    //BLTextMetrics tm;
+    //BLFontMetrics fm = font->metrics();
+    //double y = 12 + fm.ascent;
+    //std::wstring str{ L"测试"};
+    //gb.setWCharText(str.data());
+    //font->shape(gb);
+    //font->getTextMetrics(gb, tm);
+    //ctx.fillGlyphRun(BLPoint(12, y), *font.get(), gb.glyphRun(), BLRgba32(colorFore));
+    //ctx.end();
+
+
+
+    //paintSelectedBg(canvas);
+    //wordPos.clear();
+    //int lineIndex{ 0 };
+    //for (size_t i = 0; i < lines.size(); i++)
+    //{
+    //    paintLine(lines[i], i, canvas);
+    //}
+    //if (caretLineIndex < 0) {
+    //    caretLineIndex = wordPos.size() - 1;
+    //}
+    //if (caretWordIndex < 0) {
+    //    caretWordIndex = wordPos[wordPos.size() - 1].size() - 1;
+    //}
+    //caretVisible = true;
+    //flashCaret();
+}

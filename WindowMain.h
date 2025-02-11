@@ -16,7 +16,7 @@ private:
 	void initPosSize();
 	LRESULT CALLBACK procMsg(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
-	void paintText() {};
+	void paintText();
 	void flashCaret();
 	//void paintSelectedBg(SkCanvas* canvas);
 	//void paintLine(const std::wstring& text, const int& lineIndex, SkCanvas* canvas);
@@ -52,8 +52,10 @@ private:
 	std::array<int, 4> getSelectionArea();
 	void saveToClipboard(const std::wstring& str);
 	std::vector<std::wstring> textToLines(const std::wstring& text);
+	std::string convertToUTF8(const std::wstring& wstr);
+	std::string convertToUTF8(const LPWSTR& wstr);
 private:
-	//SkFont font;
+	std::unique_ptr<BLFont> font;
 	float fontTop, fontBottom, fontAsent, fontDesent;//fontAsent从基线到字体中最高字符顶部的距离,fTop 是从基线到字体中理论上最高点的距离。
 	std::vector<std::wstring> lines;
 	//std::map<int, std::vector<SkPoint>> wordPos;
@@ -63,5 +65,5 @@ private:
 	int selectStartLine{ -1 }, selectStartWord{ -1 }, selectEndLine{ -1 }, selectEndWord{ -1 };
 	float fontSize{ 26 };
 	bool isMouseDown{ false };
-	//SkColor colorBg{ 0XFFFFFFFF }, colorFore{ 0XFF000000 };
+	uint32_t colorBg{ 0XFFFFFFFF }, colorFore{ 0XFF000000 };
 };
