@@ -1,53 +1,4 @@
 #include "WindowMain.h"
-
-void WindowMain::onKeyDown(const unsigned int& val)
-{
-    if (val == VK_UP) {
-        onKeyUp();
-    }
-    else if (val == VK_DOWN) {
-        onKeyDown();
-    }
-    else if (val == VK_LEFT) {
-        onKeyLeft();
-    }
-    else if (val == VK_RIGHT) {
-        onKeyRight();
-    }
-    else if (val == VK_RETURN) {
-        onKeyEnter();
-    }
-    else if (val == VK_BACK) {
-        onKeyBackspace();
-    }
-    else if (val == VK_DELETE) {
-        onKeyDelete();
-    }
-    else {
-        bool ctrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
-        if (ctrlPressed) {
-            if (val == 'C') {
-                onCopy();
-            }
-            else if (val == 'V') {
-                onPaste();
-            }
-            else if (val == 'X') {
-                onCut();
-            }
-            else if (val == 'A') {
-                onSelectAll();
-            }
-            else if (val == 'Z') {
-                //todo 
-            }
-            else if (val == 'Y') {
-                //todo
-            }
-        }
-    }
-}
-
 void WindowMain::onKeyLeft() {
     //cancelSelection();
     //caretWordIndex -= 1;
@@ -89,7 +40,7 @@ void WindowMain::onKeyRight() {
     //InvalidateRect(hwnd, nullptr, false);
     //activeKeyboard();
 }
-void WindowMain::onKeyDown() {
+//void WindowMain::onKeyDown() {
     //cancelSelection();
     //if (caretLineIndex >= wordPos.size() - 1) return;
     //caretLineIndex += 1;
@@ -99,7 +50,7 @@ void WindowMain::onKeyDown() {
     //paintText();
     //InvalidateRect(hwnd, nullptr, false);
     //activeKeyboard();
-}
+//}
 
 void WindowMain::onCopy() {
     if (!hasSelection()) {

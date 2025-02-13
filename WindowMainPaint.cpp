@@ -85,41 +85,15 @@ void WindowMain::flashCaret()
 
 void WindowMain::paintText()
 {
-    auto ctx = getCtx();
-    BLGradient linear(BLLinearGradientValues(0, 0, 0, 480));
-    linear.addStop(0.0, BLRgba32(0xFFFFFFFF));
-    linear.addStop(0.5, BLRgba32(0xFF5FAFDF));
-    linear.addStop(1.0, BLRgba32(0xFF2F5FDF));
-    ctx.setFillStyle(linear);
-    ctx.fillRoundRect(40.0, 40.0, 400.0, 400.0, 45.5);
-    ctx.end();
-
-
-
-    //BLFontFace face;
-    //BLResult err = face.createFromFile("C:\\Windows\\Fonts\\msyh.ttc"); //黑体
-    //if (err) {
-    //    return;
-    //}
-    //BLFont font;
-    //font.createFromFace(face, 16.0f);
-    //ctx.fillAll(BLRgba32(colorBg));
-    //ctx.setFillStyle(BLRgba32(colorFore));
-    //std::string str{ "allen" };
-    //ctx.fillUtf8Text(BLPoint(60, 80), font, str.c_str());
-
-
-
-    //BLGlyphBuffer gb;
-    //BLTextMetrics tm;
-    //BLFontMetrics fm = font->metrics();
-    //double y = 12 + fm.ascent;
-    //std::wstring str{ L"测试"};
-    //gb.setWCharText(str.data());
-    //font->shape(gb);
-    //font->getTextMetrics(gb, tm);
-    //ctx.fillGlyphRun(BLPoint(12, y), *font.get(), gb.glyphRun(), BLRgba32(colorFore));
-    //ctx.end();
+    auto ctx = getCtx();    
+    BLGlyphBuffer gb;
+    BLTextMetrics tm;
+    BLFontMetrics fm = font->metrics();
+    double y = 12 + fm.ascent;
+    gb.setWCharText(text.data());
+    font->shape(gb);
+    font->getTextMetrics(gb, tm);
+    ctx->fillGlyphRun(BLPoint(12, y), *font.get(), gb.glyphRun(), BLRgba32(colorFore));
 
 
 

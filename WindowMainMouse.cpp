@@ -1,6 +1,6 @@
 #include "WindowMain.h"
 
-void WindowMain::onMouseDown(const int& x, const int& y)
+void WindowMain::onMousePress(const int& x, const int& y)
 {
 	auto lwIndex = setMouseAtIndex(x,y);
 	caretLineIndex = lwIndex.first;
@@ -14,12 +14,12 @@ void WindowMain::onMouseDown(const int& x, const int& y)
 	activeKeyboard();
 }
 
-void WindowMain::onDoubleClick(const int& x, const int& y)
+void WindowMain::onMouseDBClick(const int& x, const int& y)
 {
 
 }
 
-void WindowMain::onMouseUp(const int& x, const int& y)
+void WindowMain::onMouseRelease(const int& x, const int& y)
 {
 	if (selectEndLine == -1 || selectEndWord == -1 ||(selectStartLine == selectEndLine && selectStartWord == selectEndWord)) {
 		cancelSelection();
@@ -42,7 +42,7 @@ void WindowMain::onMouseMove(const int& x, const int& y)
 {
 }
 
-void WindowMain::onMouseDownRight(const int& x, const int& y)
+void WindowMain::onMousePressRight(const int& x, const int& y)
 {
 }
 

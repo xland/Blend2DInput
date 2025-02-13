@@ -2,11 +2,11 @@
 
 WindowMain::WindowMain()
 {
-    initText();
-    initFont();
     initPosSize();
-    createWindow();
-    //paintText();
+    initWindow();
+    initAlpha();
+    initFont();
+    paintText();
 }
 
 WindowMain::~WindowMain()
@@ -15,13 +15,62 @@ WindowMain::~WindowMain()
 
 void WindowMain::onShown()
 {
-    SetTimer(hwnd, 1001, 600, NULL);
-    activeKeyboard();
+    //SetTimer(hwnd, 1001, 600, NULL);
+    //activeKeyboard();
 }
 
 void WindowMain::onSize()
 {
     //paintText();
+}
+
+void WindowMain::onKeyDown(const uint32_t& key)
+{
+    if (key == VK_BACK || key == VK_DELETE) {
+        //removeShape();
+
+    }
+    else if (key == VK_ESCAPE) {
+        //escPress();
+
+    }
+    else if (key == VK_LEFT) {
+        //moveByKey(0);
+
+    }
+    else if (key == VK_UP) {
+        //moveByKey(1);
+
+    }
+    else if (key == VK_RIGHT) {
+        //moveByKey(2);
+
+    }
+    else if (key == VK_DOWN) {
+        //moveByKey(3);
+    }
+}
+
+void WindowMain::onKeyDownWithCtrl(const uint32_t& key)
+{
+    if (key == 'Z') {
+        //undo(); 撤销
+    }
+    else if (key == 'Y') {
+        //redo(); 重做
+    }
+    else if (key == 'C') {
+        //copyColor(0); Hex
+    }
+    else if (key == 'V') {
+        //copyColor(1); RGB
+    }
+    else if (key == 'X') {
+        //copyColor(1); RGB
+    }
+    else if (key == 'A') {
+        //copyColor(1); RGB
+    }
 }
 
 void WindowMain::initPosSize()
@@ -34,20 +83,6 @@ void WindowMain::initPosSize()
     y = (screenHeight - h) / 2;
 }
 
-
-void WindowMain::initText()
-{
-    std::wstring text{ LR"(破阵子·为陈同甫赋壮词以寄之
-辛弃疾 · 宋 · XinQiJi(1140年－1207年) 
-
-醉里挑灯看剑，梦回吹角连营。
-八百里分麾下炙，五十弦翻塞外声，沙场秋点兵。
-马作的卢飞快，弓如霹雳弦惊。
-了却君王天下事，赢得生前身后名。可怜白发生！
-)" };
-    lines = textToLines(text);
-}
-
 void WindowMain::initFont()
 {
     BLFontFace face;
@@ -56,69 +91,7 @@ void WindowMain::initFont()
         return;
     }
     font = std::make_unique<BLFont>();
-    font->createFromFace(face, 16.0f);
-
-    //auto fontMgr = SkFontMgr_New_GDI();
-    //auto fontStyle = SkFontStyle::Normal();    
-    //auto typeFace = fontMgr->matchFamilyStyle("Microsoft YaHei", fontStyle);
-    //font = SkFont(typeFace, fontSize);
-    //font.setEdging(SkFont::Edging::kSubpixelAntiAlias);
-    //font.setSubpixel(true);
-    //SkFontMetrics metrics;
-    //font.getMetrics(&metrics);
-    //fontTop = metrics.fTop;
-    //fontBottom = metrics.fBottom;
-    //fontAsent = metrics.fAscent;
-    //fontDesent = metrics.fDescent;
+    font->createFromFace(face, 36.0f);
 }
 
 
-LRESULT WindowMain::procMsg(UINT msg, WPARAM wParam, LPARAM lParam)
-{
-    if (msg == WM_TIMER) {
-        //if (wParam == 1001)
-        //{
-        //    flashCaret();
-        //    InvalidateRect(hwnd, nullptr, false);
-        //    return 0;
-        //}
-        return 0;
-    }
-    else if (msg == WM_LBUTTONDOWN) {
-        isMouseDown = true;
-        onMouseDown(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-        return 0;
-    }
-    else if (msg == WM_LBUTTONDBLCLK) {
-        onDoubleClick(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-        return 0;
-    }
-    else if (msg == WM_LBUTTONUP) {
-        isMouseDown = false;
-        onMouseUp(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-        return 0;
-    }
-    else if (msg == WM_MOUSEMOVE) {
-        if (isMouseDown) {
-            onMouseDrag(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-        }
-        else {
-            onMouseMove(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-        }
-        return 0;
-    }
-    else if (msg == WM_RBUTTONDOWN) {
-        onMouseDownRight(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-        return 0;
-    }    
-    else if (msg == WM_KEYDOWN) {
-        onKeyDown(wParam);
-        return 0;
-    }
-    else if (msg == WM_CHAR) {
-        if (!iswprint(wParam)) return 0;
-        onChar(wParam);
-        return 0;
-    }
-    return DefWindowProc(hwnd, msg, wParam, lParam);
-}
