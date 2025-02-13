@@ -86,12 +86,12 @@ void WindowMain::initPosSize()
 void WindowMain::initFont()
 {
     BLFontFace face;
-    BLResult err = face.createFromFile("C:\\Windows\\Fonts\\simhei.ttf"); //黑体
+    BLResult err = face.createFromFile("C:\\Windows\\Fonts\\msyhl.ttc"); //黑体
     if (err) {
         return;
     }
     font = std::make_unique<BLFont>();
-    font->createFromFace(face, 36.0f);
+    font->createFromFace(face, 26.0f);
 }
 
 

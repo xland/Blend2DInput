@@ -141,6 +141,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Action.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="WindowBase.cpp" />
     <ClCompile Include="WindowMain.cpp" />
@@ -150,6 +151,7 @@
     <ClCompile Include="WindowMainUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Action.h" />
     <ClInclude Include="WindowBase.h" />
     <ClInclude Include="WindowMain.h" />
   </ItemGroup>

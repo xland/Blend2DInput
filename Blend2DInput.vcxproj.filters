@@ -36,12 +36,18 @@
     <ClCompile Include="WindowBase.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Action.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowMain.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="WindowBase.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Action.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
