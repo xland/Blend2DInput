@@ -3,24 +3,33 @@
 
 void WindowMain::flashCaret()
 {
-    //auto color = caretVisible ? colorFore : colorBg;
-    //SkPoint p;
-    //if (caretLineIndex == 0 && caretWordIndex == 0) {
-    //    p = SkPoint(12, 0 - fontTop + fontDesent);
-    //}
-    //else {
-    //    p = wordPos[caretLineIndex][caretWordIndex];
-    //}
-    //auto height{ fontBottom - fontTop };
-    //SkPoint start = SkPoint(p.fX, p.fY + fontTop + caretLineIndex * height);// 字符顶部相对于基线的偏移  neagtive
-    //SkPoint end = SkPoint(p.fX, p.fY + fontBottom + caretLineIndex * height); // 字符底部相对于基线的偏移
-    //auto canvas = ctx->getCanvas();
-    //SkPaint paint;
-    //paint.setColor(color);
-    //paint.setStroke(true);
-    //paint.setStrokeWidth(1);
-    //canvas->drawLine(start, end, paint);
-    //caretVisible = !caretVisible;
+    auto color = caretVisible ? colorFore : colorBg; 
+    auto ctx = getCtx();
+    ctx->setStrokeStyle(BLRgba32(color));
+    ctx->setStrokeWidth(1);
+    ctx->strokeLine(caretX, caretY, caretX, caretY + getLineHeight());
+    caretVisible = !caretVisible;
+}
+void WindowMain::setCaretPos()
+{
+    int charLineIndex = 0;
+    caretY = padding;
+    for (int i = 0; i < caretIndex; i++) {
+        if (text[i] == L'\n') {
+            caretY += getLineHeight();
+            charLineIndex = 0;
+        }
+        else {
+            charLineIndex += 1;
+        }
+    }
+    auto subStr = text.substr(caretIndex - charLineIndex, charLineIndex);
+    BLGlyphBuffer gb;
+    BLTextMetrics tm;
+    gb.setWCharText(subStr.data());
+    font->shape(gb);
+    font->getTextMetrics(gb, tm);
+    caretX = padding +  (tm.boundingBox.x1 - tm.boundingBox.x0);
 }
 //void WindowMain::paintSelectedBg(SkCanvas* canvas) {
 //    if (selectStartLine == -1 || selectStartWord == -1 || selectEndLine == -1 || selectEndWord == -1) {
@@ -67,7 +76,6 @@ void WindowMain::paintText()
     BLGlyphBuffer gb;
     BLTextMetrics tm;
     BLFontMetrics fm = font->metrics();
-    float lineHeight = fm.ascent - fm.descent + fm.lineGap + lineSpan;
     float x = padding, y = padding + fm.ascent;
     std::wstring line;
     for (wchar_t ch : text) {
@@ -77,7 +85,7 @@ void WindowMain::paintText()
             font->getTextMetrics(gb, tm);
             ctx->fillGlyphRun(BLPoint(x, y), *font.get(), gb.glyphRun(), BLRgba32(colorFore));
             line.clear();
-            y += lineHeight;
+            y += getLineHeight();
         }
         else {
             line += ch;
@@ -89,4 +97,7 @@ void WindowMain::paintText()
         font->getTextMetrics(gb, tm);
         ctx->fillGlyphRun(BLPoint(x, y), *font.get(), gb.glyphRun(), BLRgba32(colorFore));
     }
+
+    setCaretPos();
+    flashCaret();
 }

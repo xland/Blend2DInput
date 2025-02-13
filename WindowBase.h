@@ -26,6 +26,7 @@ protected:
 	void initContext();
 	bool initAlpha();
 	std::shared_ptr<BLContext> getCtx();
+	void activeKeyboard(const int& x, const int& y);
 	virtual void onShown() {};
 	virtual void onSize() {};
 	virtual void onMove() {};

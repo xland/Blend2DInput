@@ -15,6 +15,7 @@ WindowMain::~WindowMain()
 
 void WindowMain::onShown()
 {
+    //flashCaret();
     //SetTimer(hwnd, 1001, 600, NULL);
     //activeKeyboard();
 }
@@ -83,10 +84,20 @@ void WindowMain::initPosSize()
     y = (screenHeight - h) / 2;
 }
 
+float WindowMain::getLineHeight()
+{
+    static float lineHeight = [this]() {
+        BLFontMetrics fm = font->metrics();
+        return fm.ascent - fm.descent + fm.lineGap + lineSpan;
+        }();
+    return lineHeight;
+}
+
 void WindowMain::initFont()
 {
     BLFontFace face;
-    BLResult err = face.createFromFile("C:\\Windows\\Fonts\\msyhl.ttc"); //黑体
+    //BLResult err = face.createFromFile("C:\\Windows\\Fonts\\msyhl.ttc");
+    BLResult err = face.createFromFile("C:\\Windows\\Fonts\\simhei.ttf"); //黑体
     if (err) {
         return;
     }

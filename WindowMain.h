@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include <blend2d/fontdefs.h>
 #include "WindowBase.h"
 
 class WindowMain:public WindowBase
@@ -12,7 +13,6 @@ protected:
 	void onSize() override;
 	void onKeyDown(const uint32_t& key) override;
 	void onKeyDownWithCtrl(const uint32_t& key) override;
-
 	void onMousePress(const int& x, const int& y) override;
 	void onMouseDBClick(const int& x, const int& y) override;
 	void onMouseRelease(const int& x, const int& y) override;
@@ -23,11 +23,10 @@ protected:
 private:
 	void initFont();
 	void initPosSize();
-
+	float getLineHeight();
 	void paintText();
 	void flashCaret();
-
-	void activeKeyboard();
+	void setCaretPos();
 	std::wstring getClipboardText();
 	void saveToClipboard(const std::wstring& str);
 	std::vector<std::wstring> textToLines(const std::wstring& text);
@@ -42,9 +41,10 @@ private:
 马作的卢飞快，弓如霹雳弦惊。
 了却君王天下事，赢得生前身后名。可怜白发生！
 )" };
-	int padding{ 18 }, lineSpan{16};
-
+	size_t caretIndex{ 7 };
+	float caretX, caretY;
+	bool caretVisible{ true };
+	float padding{ 18 }, lineSpan{16};
 	std::unique_ptr<BLFont> font;
-
-	uint32_t colorBg{ 0X6622FF88 }, colorFore{ 0XFF000000 };
+	uint32_t colorBg{ 0X2222FF88 }, colorFore{ 0XFF000000 };
 };
