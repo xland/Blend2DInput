@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "WindowBase.h"
 
@@ -65,6 +65,8 @@ private:
 马作的卢飞快，弓如霹雳弦惊。
 了却君王天下事，赢得生前身后名。可怜白发生！
 )" };
+
+	//std::wstring text = L"破";
 
 	std::unique_ptr<BLFont> font;
 	float fontTop, fontBottom, fontAsent, fontDesent;//fontAsent从基线到字体中最高字符顶部的距离,fTop 是从基线到字体中理论上最高点的距离。
